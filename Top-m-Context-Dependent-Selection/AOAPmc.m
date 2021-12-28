@@ -10,8 +10,6 @@ rb=zeros(k,q);
 
 X0 = zeros(n0,q);
 
-bar=waitbar(0,'读取数据中...');
-
 tic 
 
 for t=1:num
@@ -25,7 +23,7 @@ for t=1:num
             X0(j,:)=normrnd(mu(i,:),sigma(i,:).^(1/2));
         end
         estmean(i,:)=mean(X0);
-        estvar(i,:)=var(X0,1); 
+        estvar(i,:)=var(X0); 
     end
     
     N=n0*ones(k,q);
@@ -93,10 +91,7 @@ for t=1:num
         pv(id2,col)=(1./sigma0(id2,col)+N(id2,col)./estvar(id2,col))^(-1);
         pm(id2,col)=pv(id2,col).*(mu0(id2,col)./sigma0(id2,col)+N(id2,col).*estmean(id2,col)./estvar(id2,col)); 
     end
-    str=['计算中...',num2str(100*t/num),'%'];
-    waitbar(t/num,bar,str)
 end
 toc
 PCS = min((PCS1)');
-close(bar)
 end
