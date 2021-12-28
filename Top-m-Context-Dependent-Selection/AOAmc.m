@@ -12,9 +12,6 @@ V = zeros(k,q);
 V1 = zeros(m,(k-m));
 V2 = zeros(1,q);
 
-
-bar=waitbar(0,'读取数据中...');
-
 for t=1:num 
     
     for i=1:k
@@ -26,7 +23,7 @@ for t=1:num
             X0(j,:)=normrnd(mu(i,:),sigma(i,:).^(1/2)); 
         end
         estmean(i,:)=mean(X0);
-        estvar(i,:)=var(X0,1);
+        estvar(i,:)=var(X0);
     end
     
     N=n0*ones(k,q); 
@@ -89,10 +86,7 @@ for t=1:num
         pv(id21,id22)=(1./sigma0(id21,id22)+N(id21,id22)./estvar(id21,id22)).^(-1); 
         pm(id21,id22)=pv(id21,id22).*(mu0(id21,id22)./sigma0(id21,id22)+N(id21,id22).*estmean(id21,id22)./estvar(id21,id22));
     end
-    str=['计算中...',num2str(100*t/num),'%'];
-    waitbar(t/num,bar,str)
 end
 PCS = min((PCS1)');
-close(bar)
 toc
 end
