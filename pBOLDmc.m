@@ -24,7 +24,7 @@ parfor t = 1:num
     [~, rbb] = sort(truemu, 1, 'descend');
     rb = sort(rbb(1:m, :), 1);
 
-    wt = ones(k,q) / k;
+    wt = ones(k,q) / (k*q);
 
     for budget = 1:T
 
@@ -63,7 +63,7 @@ parfor t = 1:num
         estvar(id21, id22)=((N(id21, id22)-1)*estvar(id21, id22)+(x-mm)*(x-estmean(id21, id22)))/N(id21, id22);
         N(id21, id22) = N(id21, id22) + 1;
 
-        wt(:,id22)=N(:,id22)./sum(N(:,id22));
+        wt = N./sum(sum(N));
 
         pv(id21, id22) = (1 ./ sigma0(id21, id22) + N(id21, id22) ./ estvar(id21, id22)) .^ (-1);
         pm(id21, id22) = pv(id21, id22) .* (mu0(id21, id22) ./ sigma0(id21, id22) + N(id21, id22) .* estmean(id21, id22) ./ estvar(id21, id22));
